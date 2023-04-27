@@ -9,6 +9,9 @@ public class objPlayer : MonoBehaviour {
    float   yspeed;
    Vector3 direction_move;
    [SerializeField] float spd = 7;
+   [SerializeField] Transform aim;
+   [SerializeField] Camera cam;
+   Vector2 facingDirection; 
 
 // Start is called before the first frame update // This is similary of Create Event of Game Maker
    void Start(){
@@ -18,6 +21,7 @@ public class objPlayer : MonoBehaviour {
 // Update is called once per frame // This is similary of Step Event of Game Maker
    void Update()
    {
+   // Movement To Player
       xspeed = Input.GetAxis("Horizontal");
       yspeed = Input.GetAxis("Vertical");
 
@@ -25,5 +29,9 @@ public class objPlayer : MonoBehaviour {
       direction_move.y   = yspeed;
         
       transform.position += direction_move * Time.deltaTime * spd;
+
+   // Move of the Target(Cursor)
+      facingDirection = cam.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+      aim.position    = transform.position + (Vector3)facingDirection.normalized;
    }
 }
