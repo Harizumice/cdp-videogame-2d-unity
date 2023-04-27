@@ -8,10 +8,12 @@ public class objPlayer : MonoBehaviour {
    float   xspeed;
    float   yspeed;
    Vector3 direction_move;
+   Vector2 facingDirection;
+
    [SerializeField] float spd = 7;
    [SerializeField] Transform aim;
    [SerializeField] Camera cam;
-   Vector2 facingDirection; 
+   [SerializeField] Transform prefab_bullet; 
 
 // Start is called before the first frame update // This is similary of Create Event of Game Maker
    void Start(){
@@ -33,5 +35,12 @@ public class objPlayer : MonoBehaviour {
    // Move of the Target(Cursor)
       facingDirection = cam.ScreenToWorldPoint(Input.mousePosition) - transform.position;
       aim.position    = transform.position + (Vector3)facingDirection.normalized;
+
+   // Shoot One Bullet with Mouse Left or Right
+      if(Input.GetMouseButton(0) || Input.GetMouseButton(1)){
+         float angle = Mathf.Atan2(facingDirection.y,facingDirection.x) * Mathf.Rad2Deg;
+         Quaternion rotation_target = Quaternion.AngleAxis(angle, Vector3.forward);
+         Instantiate(prefab_bullet,transform.position, rotation_target);
+      }
    }
 }
